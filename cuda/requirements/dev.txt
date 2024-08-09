@@ -1,0 +1,64 @@
+--index https://mirrors.aliyun.com/pypi/simple
+# TODO (yiakwy) : ICE tokenizer, consider to remove
+icetk
+# TODO (yiakwy) : fixes text for you, consider to remove
+ftfy
+# TODO (yiakwy) : custom json, consider to remove in favor of standard json
+hjson
+ninja
+tokenizers
+transformers>=4.38.2
+accelerate>=0.23.0
+datasets==2.16.1
+wcwidth==0.2.12
+pyarrow==12.0.1
+# jieba
+# sentencepiece
+rjieba
+# sqlitedict
+# sacrebleu
+# tensorboard
+lm_dataformat
+# tiktoken
+
+# Megatron-LM requirements
+wandb==0.15.2
+tensorboard==2.9.0
+# tokenizers==0.13.3
+sentencepiece==0.1.99
+nltk==3.8.1
+einops==0.6.1
+pyre-extensions=0.0.29
+flash-attn==2.3.3
+# datasets==2.15.0
+jsonlines==3.1.0
+numexpr==2.8.4
+openai==0.27.7
+omegaconf==2.3.0
+peft==0.3.0
+pybind11==2.10.4
+pycountry==22.3.5
+pytablewriter==0.64.2
+rouge-score==0.1.2
+sacrebleu==1.5.0
+scikit-learn==1.2.0
+sqlitedict==1.2.0
+tqdm-multiprocess==0.0.11
+zstandard==0.21.0
+safetensors==0.3.3
+# transformers==4.33.1
+# accelerate==0.22.0
+pymongo==4.5.0
+jieba==0.42.1
+nagisa==0.2.9
+termcolor==2.3.0
+tiktoken==0.4.0
+DyNet38==2.1
+text_generation==0.6.0
+transformers_stream_generator==0.0.4
+flake==3.8.1
+isort==5.10.1
+black==21.4b2
+click==8.0.2
+seaborn==0.13.2
+gpustat==1.1.1
