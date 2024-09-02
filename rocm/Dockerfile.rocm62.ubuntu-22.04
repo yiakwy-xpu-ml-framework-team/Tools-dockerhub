@@ -1,0 +1,106 @@
+# login to dockerhub to pull the repo rocm62+py310 : rocm/pytorch:rocm${ROCM_VERSION}-ubuntu${UBUNTU_VERSION}_py${PY_VERSION}_release_${TORCH_VERSION}
+ARG ROCM_VERSION=6.2
+FROM rocm/dev-ubuntu-22.04:${ROCM_VERSION}-complete AS base
+ARG ROCM_VERSION=6.2
+ENV ROCM_PATH=/opt/rocm-${ROCM_VERSION}
+ENV DEBIAN_FRONTEND=noninteractive
+ENV HOME=/root/
+
+# Install basic dependencies
+FROM base AS base-dev
+RUN apt-get update && apt-get install -y build-essential \
+    software-properties-common \
+    ca-certificates \
+    ccache \
+    libcurl4-openssl-dev \
+    manpages-dev \
+    wget \
+    rsync \
+    zlib1g \
+    zlib1g-dev \
+    git \
+    pkg-config \
+    vim \
+    sudo \
+    ssh \
+    libssl-dev \
+    pbzip2 \
+    pv \
+    bzip2 \
+    unzip \
+    devscripts \
+    lintian \
+    fakeroot \
+    dh-make
+
+# Install doc building tools
+RUN apt-get update && apt-get install -y latexmk texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra latex-cjk-all texlive-xetex
+
+# Install system python & LLM related packages
+RUN apt update --allow-insecure-repositories && apt-get install -y python3-dev python3-pip python3-wheel \
+    git-lfs \ 
+    fio \
+    openssh-server \
+    iputils-ping \
+    iproute2 \
+    libibverbs-dev \
+    ibverbs-utils \
+    socat \
+    rlwrap \
+    net-tools \
+    rocprim \
+    hipcub && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN /usr/sbin/update-ccache-symlinks
+RUN mkdir -p /opt/ccache && ccache --set-config=cache_dir=/opt/ccache
+
+# Install licensed maba-forge
+FROM base-dev AS conda
+ARG PYTHON_VERSION=3.10
+ARG MINICONDA_ARCH=x86_64
+# cache conda layer use conda env with system installed libs (by nv)
+RUN wget --quiet --progress=bar:force:noscroll https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-${MINICONDA_ARCH}.sh -O /opt/Mambaforge-Linux-${MINICONDA_ARCH}.sh && \
+    /bin/bash /opt/Mambaforge-Linux-${MINICONDA_ARCH}.sh -b -p /opt/conda && \
+    rm -f /opt/Mambaforge-Linux-${MINICONDA_ARCH}.sh && \
+    echo "export PATH=/opt/conda/bin:$PATH" >> ~/.bashrc && \
+    /bin/bash -c "source ~/.bashrc " && \
+    cat ~/.bashrc
+ENV PATH=/opt/conda/bin:${PATH} 
+RUN conda init bash
+
+# use conda-forge
+RUN conda config --add channels conda-forge
+RUN conda config --set channel_priority strict
+
+# create new env
+ENV PATH=/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
+RUN conda create -n py_${PYTHON_VERSION} python=${PYTHON_VERSION} -y
+RUN conda info --envs
+
+# Install ROCM pytorch
+FROM conda AS py3k
+COPY --from=conda /opt/conda /opt/conda
+# ARG PYTHON_VERSION=3.10
+# set default python
+ENV PATH=/opt/conda/envs/py_${PYTHON_VERSION}/bin:$PATH
+# make sure --progress=plain is passed to docker to see output
+RUN python --version
+COPY requirements ./requirements
+COPY requirements.txt ./
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    python -mpip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    python -mpip install cython
+RUN python -c "import torch; print(torch.__version__)"
+
+FROM py3k AS dev
+WORKDIR $HOME
+
+ENV TZ=Asia/Shanghai
+ENV NCCL_IB_RETRY_CNT="13"
+ENV NCCL_IB_TIMEOUT="22"
+ENV NCCL_DEBUG="WARN"

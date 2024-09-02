@@ -1,0 +1,9 @@
+# Note https://repo.radeon.com is newer than https://download.pytorch.org, check https://download.pytorch.org/whl/nightly/rocm6.2/
+# pytorch2.3 for rocm6.2 SDK
+https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2/torch-2.3.0%2Brocm6.2.0-cp310-cp310-linux_x86_64.whl
+
+# pytorch triton for rocm (pytorch >= 2.0 uses dynamo to capture Fx graph and lower them to triton kernels)
+https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2/pytorch_triton_rocm-2.3.0%2Brocm6.2.0.1540b42334-cp310-cp310-linux_x86_64.whl
+
+# torchvision for rocm
+https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2/torchvision-0.18.0%2Brocm6.2.0-cp310-cp310-linux_x86_64.whl
