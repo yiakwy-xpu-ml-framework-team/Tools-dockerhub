@@ -1,6 +1,6 @@
 # details can be found in https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/native-install/ubuntu.html#installing
 
-ROCM_VERSION=6.2
+ROCM_VERSION=${ROCM_VERSION:-6.2}
 
 # Make the directory if it doesn't exist yet.
 # This location is recommended by the distribution maintainers.
