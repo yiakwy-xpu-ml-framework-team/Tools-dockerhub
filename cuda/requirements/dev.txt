@@ -1,4 +1,4 @@
---index https://mirrors.aliyun.com/pypi/simple
+-index https://mirrors.aliyun.com/pypi/simple
 # TODO (yiakwy) : ICE tokenizer, consider to remove
 icetk
 # TODO (yiakwy) : fixes text for you, consider to remove
@@ -28,7 +28,7 @@ tensorboard==2.9.0
 sentencepiece==0.1.99
 nltk==3.8.1
 einops==0.6.1
-pyre-extensions=0.0.29
+pyre-extensions==0.0.29
 flash-attn==2.3.3
 # datasets==2.15.0
 jsonlines==3.1.0
@@ -45,7 +45,7 @@ scikit-learn==1.2.0
 sqlitedict==1.2.0
 tqdm-multiprocess==0.0.11
 zstandard==0.21.0
-safetensors==0.3.3
+safetensors>=0.4.1
 # transformers==4.33.1
 # accelerate==0.22.0
 pymongo==4.5.0
@@ -56,7 +56,7 @@ tiktoken==0.4.0
 DyNet38==2.1
 text_generation==0.6.0
 transformers_stream_generator==0.0.4
-flake==3.8.1
+flake8==3.8.1
 isort==5.10.1
 black==21.4b2
 click==8.0.2

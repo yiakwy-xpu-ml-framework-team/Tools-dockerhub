@@ -37,7 +37,8 @@ COPY --from=nccl-tests /opt/nccl-tests /opt/nccl-tests
 COPY requirements ./requirements
 COPY requirements.txt ./
 RUN /usr/bin/python -c "import torch; print(torch.__version__)"
-RUN /usr/bin/python -mpip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+  /usr/bin/python -m pip install -r requirements.txt
 
 FROM py310 as common-software-updates
 ENV TZ Asia/Shanghai
