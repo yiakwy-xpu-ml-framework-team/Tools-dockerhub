@@ -1,0 +1,13 @@
+astunparse==1.6.2
+colorlover
+dash>=1.12.0 --no-deps
+matplotlib
+pymongo
+tabulate
+dash-svg
+dash-bootstrap-components
+dash-bootstrap-components --no-deps
+kaleido
+plotille
+# used by rocProfiler-compute GUI program
+flask --no-deps
