@@ -32,7 +32,7 @@ I recommend you setup ssh reverse proxy to access rocProfiler-compute GUI client
 
 ```
 PROFILE_NAME=moe_align_16384x256
-/opt/rocm-6.3.3/bin/rocprof-compute profile -p $PROFILE_NAME -- your_binary
+/opt/rocm-6.3.3/bin/rocprof-compute profile -n $PROFILE_NAME -- your_binary
 ```
 
 ###### Access GUI in local browser
