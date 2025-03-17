@@ -54,7 +54,8 @@ ssh -L $LOCAL_GUI_HTTP_SERVICE_PORT:localhost:$LOCAL_GUI_HTTP_SERVICE_PORT $remo
 # tty3
 # start rocProfiler-compute servcie
 # ssh -j $remote_head_node $slurm_job_host_name
-PROFILE_NAME=moe_align_16384x256 /opt/rocm-6.3.3/bin/rocprof-compute analyze -p workloads/$PROFILE_NAME/MI300X_A1/ --gui
+PROFILE_NAME=moe_align_16384x256
+/opt/rocm-6.3.3/bin/rocprof-compute analyze -p workloads/$PROFILE_NAME/MI300X_A1/ --gui
 ```
 
 ## CUDA
